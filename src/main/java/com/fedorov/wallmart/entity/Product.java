@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(schema = "wallmart", name = "products")
+@Table(name = "products", schema = "wallmart")
 @Getter
 @Setter
 @ToString
@@ -19,14 +19,15 @@ public class Product extends BaseEntity {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "category_id")
-    private String category;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "category_id")
+    private Category category;
 
-    @Column(name = "producer_id")
-    private String producer;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "producer_id")
+    private Producer producer;
 
     @Column(name = "price")
     private BigDecimal price;
 }
-
 

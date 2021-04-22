@@ -11,6 +11,7 @@ import javax.persistence.*;
 @ToString
 public class Category extends BaseEntity{
 
+
     @Column(name = "name")
     private String name;
 
