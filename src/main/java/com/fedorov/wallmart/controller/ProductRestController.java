@@ -1,7 +1,6 @@
 package com.fedorov.wallmart.controller;
 
 
-import com.fedorov.wallmart.entity.Product;
 import com.fedorov.wallmart.model.ProductModel;
 import com.fedorov.wallmart.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +36,7 @@ public class ProductRestController {
 
     @RequestMapping(value = "", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProductModel> saveProduct(@RequestBody @Validated ProductModel productModel) {
+    public ResponseEntity<ProductModel> saveProduct(@RequestBody ProductModel productModel) {
         HttpHeaders headers = new HttpHeaders();
         if (productModel == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

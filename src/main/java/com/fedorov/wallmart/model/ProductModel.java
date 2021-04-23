@@ -14,6 +14,6 @@ public class ProductModel {
     private String name;
     private String description;
     private Long categoryId;
-    private String producer;
+    private Long producerId;
     private BigDecimal price;
 }

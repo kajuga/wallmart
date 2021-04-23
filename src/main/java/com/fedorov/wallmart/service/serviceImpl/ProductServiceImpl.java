@@ -3,6 +3,7 @@ package com.fedorov.wallmart.service.serviceImpl;
 import com.fedorov.wallmart.model.ProductModel;
 import com.fedorov.wallmart.entity.Product;
 import com.fedorov.wallmart.repository.CategoryRepository;
+import com.fedorov.wallmart.repository.ProducerRepository;
 import com.fedorov.wallmart.repository.ProductRepository;
 import com.fedorov.wallmart.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
@@ -18,9 +19,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductRepository productRepository;
-
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private ProducerRepository producerRepository;
 
     @Override
     public void create(ProductModel productModel) {
@@ -28,7 +30,8 @@ public class ProductServiceImpl implements ProductService {
         Product productToSave = new Product();
         productToSave.setName(productModel.getName());
         productToSave.setDescription(productModel.getDescription());
-        productToSave.setCategory(productModel.getCategoryId());
+        productToSave.setCategory(categoryRepository.getOne(productModel.getCategoryId()));
+        productToSave.setProducer(producerRepository.getOne(productModel.getProducerId()));
         productToSave.setPrice(productModel.getPrice());
         productRepository.save(productModelToProductTransformer(productModel));
     }
@@ -57,9 +60,9 @@ public class ProductServiceImpl implements ProductService {
         updatedProduct.setId(id);
         updatedProduct.setName(productModel.getName());
         //TODO REPO для каждой составляющей!!
-        updatedProduct.setCategory(categoryRepository.getOne(productModel.getCategoryId()));
         updatedProduct.setDescription(productModel.getDescription());
-        updatedProduct.setProducer(productModel.getProducer());
+        updatedProduct.setCategory(categoryRepository.getOne(productModel.getCategoryId()));
+        updatedProduct.setProducer(producerRepository.getOne(productModel.getProducerId()));
         updatedProduct.setPrice(productModel.getPrice());
         productRepository.save(updatedProduct);
         return true;
@@ -77,9 +80,9 @@ public class ProductServiceImpl implements ProductService {
         ProductModel productModel = new ProductModel();
         productModel.setId(product.getId());
         productModel.setName(product.getName());
-        productModel.setCategoryId(product.getCategory());
+        productModel.setCategoryId(product.getCategory().getId());
         productModel.setDescription(product.getDescription());
-        productModel.setProducer(product.getProducer());
+        productModel.setProducerId(product.getProducer().getId());
         productModel.setPrice(product.getPrice());
         return productModel;
     }
@@ -89,9 +92,9 @@ public class ProductServiceImpl implements ProductService {
         Product product = new Product();
         product.setId(productModel.getId());
         product.setName(productModel.getName());
-        product.setCategory(productModel.getCategoryId());
         product.setDescription(productModel.getDescription());
-        product.setProducer(productModel.getProducer());
+        product.setCategory(categoryRepository.getOne(productModel.getCategoryId()));
+        product.setProducer(producerRepository.getOne(productModel.getProducerId()));
         product.setPrice(productModel.getPrice());
         return product;
     }
