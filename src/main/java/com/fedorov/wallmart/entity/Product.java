@@ -19,11 +19,11 @@ public class Product extends BaseEntity {
     @Column(name = "description")
     private String description;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @ManyToOne (cascade = CascadeType.ALL)
+    @ManyToOne (cascade = CascadeType.REFRESH)
     @JoinColumn(name = "producer_id")
     private Producer producer;
 
