@@ -7,6 +7,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,14 +22,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/products")
-@Api(value = "PRODUCT Resource REST Endpoint")
-public class ProductRestController {
+@Api(value="onlinestore", description="Operations pertaining to products in Wallmart online store")
+public class ProductController {
+
 
     @Autowired
     private ProductService productService;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Поиск продукта по ID")
+    @ApiOperation(value = "Search a product with an ID",response = ProductModel.class)
     @ApiResponses(value = { @ApiResponse(code = 100, message = "100 is the message"),
                             @ApiResponse(code = 200, message = "Successful"),
                             @ApiResponse(code = 666, message = "666cessful"),
@@ -46,7 +48,7 @@ public class ProductRestController {
 
     @RequestMapping(value = "", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Сохранение продукта в БД")
+    @ApiOperation(value = "Add a product")
     public ResponseEntity<ProductModel> saveProduct(@RequestBody ProductModel productModel) {
         HttpHeaders headers = new HttpHeaders();
         if (productModel == null) {
@@ -57,7 +59,7 @@ public class ProductRestController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Изменение продукта")
+    @ApiOperation(value = "Update a product")
     public ResponseEntity<ProductModel> updateProduct(@RequestBody @Validated ProductModel productModel, UriComponentsBuilder builder) {
         HttpHeaders headers = new HttpHeaders();
         if (productModel == null) {
@@ -69,7 +71,7 @@ public class ProductRestController {
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Удаление продукта")
+    @ApiOperation(value = "Delete a product")
     public ResponseEntity<ProductModel> deleteProduct(@PathVariable("id") Long productModelId) {
         if (productService.getById(productModelId) == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -79,7 +81,7 @@ public class ProductRestController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Список продуктов")
+    @ApiOperation(value = "View a list of available products",response = Iterable.class)
     public ResponseEntity<List<ProductModel>> getAllProducts() {
         List<ProductModel> productModelList = productService.readAll();
         if (productModelList.isEmpty()) {
