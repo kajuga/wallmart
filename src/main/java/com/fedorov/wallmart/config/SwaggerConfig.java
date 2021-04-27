@@ -28,7 +28,10 @@ public class SwaggerConfig {
     }
 
     private Predicate<String> postPaths() {
-        return or(regex("/products/posts.*"), regex("/products.*"));
+        return or(regex("/products/posts.*"),
+                regex("/products.*"),
+                regex("/categories.*"),
+                regex("/producers.*"));
     }
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder().title("Fedorov`s Wallmart API")

@@ -7,7 +7,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -81,7 +80,7 @@ public class ProductController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "View a list of available products",response = Iterable.class)
+    @ApiOperation(value = "View a list of available products")
     public ResponseEntity<List<ProductModel>> getAllProducts() {
         List<ProductModel> productModelList = productService.readAll();
         if (productModelList.isEmpty()) {
